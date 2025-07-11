@@ -36,45 +36,45 @@ public class LessionsAdapter extends RecyclerView.Adapter<LessionsAdapter.Viewho
         return new Viewholder(binding);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull LessionsAdapter.Viewholder holder, @SuppressLint("RecyclerView") int position) {
-        holder.binding.titleTxt.setText(list.get(position).getTitle());
-        holder.binding.durationTxt.setText(list.get(position).getDuration());
+        @Override
+        public void onBindViewHolder(@NonNull LessionsAdapter.Viewholder holder, @SuppressLint("RecyclerView") int position) {
+            holder.binding.titleTxt.setText(list.get(position).getTitle());
+            holder.binding.durationTxt.setText(list.get(position).getDuration());
 
-        int resId = context.getResources().getIdentifier(list.get(position).getPicPath(), "drawable", context.getPackageName());
+            int resId = context.getResources().getIdentifier(list.get(position).getPicPath(), "drawable", context.getPackageName());
 
-        Glide.with(context)
-                .load(resId)
-                .into(holder.binding.pic);
+            Glide.with(context)
+                    .load(resId)
+                    .into(holder.binding.pic);
 
-        holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int pos = holder.getAdapterPosition();
-                if (pos != RecyclerView.NO_POSITION) {
-                    Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + list.get(position) .getLink()));
-                    Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + list.get(position).getLink()));
-                    try {
-                        context.startActivity(appIntent);
-                    } catch (ActivityNotFoundException ex) {
-                        context.startActivity(webIntent);
+            holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = holder.getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + list.get(position) .getLink()));
+                        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + list.get(position).getLink()));
+                        try {
+                            context.startActivity(appIntent);
+                        } catch (ActivityNotFoundException ex) {
+                            context.startActivity(webIntent);
+                        }
                     }
                 }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        public class Viewholder extends RecyclerView.ViewHolder {
+            ViewholderExerciseBinding binding;
+
+            public Viewholder(ViewholderExerciseBinding binding) {
+                super(binding.getRoot());
+                this.binding = binding;
             }
-        });
-    }
-
-    @Override
-    public int getItemCount() {
-        return list.size();
-    }
-
-    public class Viewholder extends RecyclerView.ViewHolder {
-        ViewholderExerciseBinding binding;
-
-        public Viewholder(ViewholderExerciseBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
         }
     }
-}

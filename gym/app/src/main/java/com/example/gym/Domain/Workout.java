@@ -11,16 +11,29 @@ public class Workout implements Serializable {
     private int kcal;
     private String durationAll;
     private ArrayList<Lession> lessions;
+    private String level; // ✅ Thêm thuộc tính cấp độ
 
-    public Workout(String title, String description, String picPath, int kcal, String durationAll, ArrayList<Lession> lessions) {
+    // ✅ Constructor mới có thêm tham số `level`
+    public Workout(String title, String description, String picPath, int kcal, String durationAll, ArrayList<Lession> lessions, String level) {
         this.title = title;
         this.description = description;
         this.picPath = picPath;
         this.kcal = kcal;
         this.durationAll = durationAll;
         this.lessions = lessions;
+        this.level = level;
     }
 
+    // ✅ Getter và Setter cho `level`
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    // Các getter/setter còn lại giữ nguyên
     public String getTitle() {
         return title;
     }

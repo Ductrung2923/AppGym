@@ -235,13 +235,43 @@
                 android:layout_marginStart="16dp"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textView16"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/white"
-                    android:text="Other Workout" />
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/textView16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:textColor="@color/white"
+                        android:text="Other Workout" />
+
+                    <Spinner
+                        android:id="@+id/levelSpinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:backgroundTint="@color/white"
+                        android:popupBackground="@color/white"
+                        android:textAlignment="center"
+                        android:minHeight="48dp"
+                        android:padding="8dp" />
+
+                    <TextView
+                        android:id="@+id/textViewSeeAll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.2"
+                        android:text="See all"
+                        android:textColor="@color/orange"/>
+                </LinearLayout>
+
 
                 <TextView
                     android:id="@+id/TitleTxt"
@@ -275,8 +305,9 @@
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="39dp"
             android:background="@color/mainColor">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

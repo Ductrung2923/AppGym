@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">gym</string>
     <string name="loginTxt">Are you have an account ? <font color="#FD511E">Signin</font> </string>
+
+    <string-array name="level_options">
+        <item>All</item>
+        <item>Beginner</item>
+        <item>Intermediate</item>
+        <item>Advanced</item>
+    </string-array>
 </resources>
