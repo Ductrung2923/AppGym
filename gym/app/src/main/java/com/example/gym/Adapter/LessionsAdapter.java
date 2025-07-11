@@ -1,5 +1,6 @@
 package com.example.gym.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +37,7 @@ public class LessionsAdapter extends RecyclerView.Adapter<LessionsAdapter.Viewho
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LessionsAdapter.Viewholder holder, int position) {
+    public void onBindViewHolder(@NonNull LessionsAdapter.Viewholder holder, @SuppressLint("RecyclerView") int position) {
         holder.binding.titleTxt.setText(list.get(position).getTitle());
         holder.binding.durationTxt.setText(list.get(position).getDuration());
 

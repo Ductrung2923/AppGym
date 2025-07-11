@@ -1,7 +1,10 @@
 package com.example.gym.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +23,10 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    private ImageView imgButtMapRun;
+    private ImageView buttonProfile;
+
     ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +37,32 @@ public class MainActivity extends AppCompatActivity {
 
         binding.view1.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false));
         binding.view1.setAdapter(new WorkutAdapter(getData()));
+
+        BindingView();
+        BindingAction();
+
+    }
+
+
+
+    private void BindingView() {
+        imgButtMapRun = findViewById(R.id.MapsRun);
+        buttonProfile = findViewById(R.id.imgButProfile);
+
+    }
+
+    private void BindingAction() {
+        imgButtMapRun.setOnClickListener(this:: MapRunButton);
+        buttonProfile.setOnClickListener(this:: ProfileButton);
+    }
+
+    private void ProfileButton(View view) {
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+    }
+
+    private void MapRunButton(View view) {
+
+        startActivity(new Intent(MainActivity.this, TrackingActivity.class));
     }
 
     private ArrayList<Workout> getData() {
@@ -51,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         list.add(new Lession("Lesson 1","03:46","HBPMvFkpNgE","pic_1_1"));
 
-        list.add(new Lession("Lesson 2","03:41","K6124WgiiPw","pic_1_2"));
+        list.add(new Lession("Lesson 2","MiLuh0RpEGk?si=L1ROX2XGrcT0PLRu","K6124WgiiPw","pic_1_2"));
 
         list.add(new Lession("Lesson 3","01:57","Zc08v4YY0eA","pic_1_3"));
 

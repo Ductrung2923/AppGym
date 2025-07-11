@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="textLogin">
+        <item name="android:backgroundTint">@android:color/white</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">#D0D0D0</item>
+
+    </style>
+
+    <style name="img">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_marginTop">56dp</item>
+    </style>
+
+    <style name="text2">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
+    <style name="text1">
+        <item name="android:textColor">#D7C6C6</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+    <style name="bttLogin">
+        <item name="android:background">@null</item>
+        <item name="android:backgroundTint">#3A6F6969</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">#A6A3A3</item>
+
+    </style>
+    <style name="ClickText">
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="TextHint">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_marginBottom">100dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+</resources>
