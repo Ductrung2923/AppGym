@@ -1,13 +1,17 @@
 package com.example.gym.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.gym.Adapter.WorkutAdapter;
@@ -30,7 +34,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+       // getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+// Gán layout horizontal cho RecyclerView
+        binding.view1.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        binding.view1.setAdapter(new WorkutAdapter(getData()));
+
+        // ✅ Bước 4: Bắt sự kiện click để mở BMIActivity
+        binding.calculate.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, BMIActivity.class));
+        });
 
         // Dữ liệu gốc
         allWorkouts = getData();
@@ -68,6 +80,40 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
         });
+        LinearLayout favoriteTab = findViewById(R.id.nav_favorite);
+        CoordinatorLayout bottomNavBar = findViewById(R.id.bottomNavBar);
+
+        favoriteTab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // Ẩn thanh bottom nav
+                bottomNavBar.setVisibility(View.GONE);
+
+                // Chuyển mượt bằng animation
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(
+                                android.R.anim.slide_in_left, // bạn có thể tự tạo animation nếu muốn hiệu ứng đẹp hơn
+                                android.R.anim.fade_out,
+                                android.R.anim.slide_in_left,
+                                android.R.anim.fade_out
+                        )
+                        .replace(R.id.main, new ProgressFragment())
+                        .addToBackStack("progress") // cho phép back
+                        .commit();
+            }
+        });
+        ImageView cartIcon = findViewById(R.id.cartIcon);
+        cartIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, WorkoutDetailActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
     private ArrayList<Workout> getData() {
@@ -88,38 +134,45 @@ public class MainActivity extends AppCompatActivity {
         list.add(new Workout(
                 "Plank",
                 "Build core strength with beginner-friendly plank variations. No equipment needed.",
-                "plank_main", // ảnh đại diện bài Plank
+                "plank_main",
                 100,
                 "10 min",
-                getLession_Plank()
+                getLession_Plank(),
+                "Beginner"
         ));
+
 
         list.add(new Workout(
                 "Abs_Workout",
                 "Burn belly fat, helps tone core muscles.",
-                "abs_main", // ảnh đại diện bài
+                "abs_main",
                 120,
                 "10 min",
-                getLession_Abs_Workout()
+                getLession_Abs_Workout(),
+                "Intermediate"
         ));
 
         list.add(new Workout(
                 "Leg_Workout",
                 "Strengthen your legs, thighs, and buttocks with squats, lunges.",
-                "leg_main", // ảnh đại diện bài
+                "leg_main",
                 180,
                 "20 min",
-                getLession_Leg_Workout()
+                getLession_Leg_Workout(),
+                "Advanced"
         ));
+
 
         list.add(new Workout(
                 "Pilates",
                 "The exercise combines strength, balance and gentle breath control.",
-                "pilates_main", // ảnh đại diện bài
+                "pilates_main",
                 180,
                 "40 min",
-                getLession_Pilates()
+                getLession_Pilates(),
+                "Beginner"
         ));
+
 
         return list;
     }
@@ -196,4 +249,18 @@ public class MainActivity extends AppCompatActivity {
 
         return list;
     }
+    @Override
+    public void onBackPressed() {
+        // Kiểm tra xem còn Fragment nào trong back stack không
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            getSupportFragmentManager().popBackStack(); // Quay lại Fragment trước
+
+            // Hiện lại thanh bottom nav
+            CoordinatorLayout bottomNavBar = findViewById(R.id.bottomNavBar);
+            bottomNavBar.setVisibility(View.VISIBLE);
+        } else {
+            super.onBackPressed(); // Thoát Activity nếu không còn fragment nào
+        }
+    }
+
 }
