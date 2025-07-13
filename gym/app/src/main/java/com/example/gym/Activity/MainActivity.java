@@ -1,8 +1,10 @@
 package com.example.gym.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -20,6 +22,10 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    private ImageView imgButtMapRun;
+    private ImageView buttonProfile;
+
     ActivityMainBinding binding;
     Spinner levelSpinner;
 
@@ -32,6 +38,34 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
+        binding.view1.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false));
+        binding.view1.setAdapter(new WorkutAdapter(getData()));
+
+        BindingView();
+        BindingAction();
+
+    }
+
+
+
+    private void BindingView() {
+        imgButtMapRun = findViewById(R.id.MapsRun);
+        buttonProfile = findViewById(R.id.imgButProfile);
+
+    }
+
+    private void BindingAction() {
+        imgButtMapRun.setOnClickListener(this:: MapRunButton);
+        buttonProfile.setOnClickListener(this:: ProfileButton);
+    }
+
+    private void ProfileButton(View view) {
+        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+    }
+
+    private void MapRunButton(View view) {
+
+        startActivity(new Intent(MainActivity.this, TrackingActivity.class));
         // Dữ liệu gốc
         allWorkouts = getData();
 
@@ -134,7 +168,9 @@ public class MainActivity extends AppCompatActivity {
 
         list.add(new Lession("Lesson 1","2UT67RyDces?si=_VedtaWmwkE03hHB","HBPMvFkpNgE","pic_1_1"));
 
-        list.add(new Lession("Lesson 2","TjVp-uoTviA?si=8VeXRplwI-84fsfu","K6124WgiiPw","pic_1_2"));
+
+        list.add(new Lession("Lesson 2","MiLuh0RpEGk?si=L1ROX2XGrcT0PLRu","K6124WgiiPw","pic_1_2"));
+
 
         list.add(new Lession("Lesson 3","AiohKZonPbo?si=luZ2DS4JDpfOmXGd","Zc08v4YY0eA","pic_1_3"));
 
