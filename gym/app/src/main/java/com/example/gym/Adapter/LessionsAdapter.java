@@ -1,79 +1,94 @@
-    package com.example.gym.Adapter;
+package com.example.gym.Adapter;
 
-    import android.content.ActivityNotFoundException;
-    import android.content.Context;
-    import android.content.Intent;
-    import android.net.Uri;
-    import android.view.LayoutInflater;
-    import android.view.View;
-    import android.view.ViewGroup;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-    import androidx.annotation.NonNull;
-    import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
-    import com.bumptech.glide.Glide;
-    import com.example.gym.Domain.Lession;
-    import com.example.gym.databinding.ViewholderExerciseBinding;
-    import com.example.gym.databinding.ViewholderWorkoutBinding;
+import com.bumptech.glide.Glide;
+import com.example.gym.Domain.Lession;
+import com.example.gym.databinding.ViewholderExerciseBinding;
 
-    import java.util.ArrayList;
-    public class LessionsAdapter extends RecyclerView.Adapter<LessionsAdapter.Viewholder> {
+import java.util.ArrayList;
 
-        private final ArrayList<Lession> list;
-        private Context context;
+public class LessionsAdapter extends RecyclerView.Adapter<LessionsAdapter.Viewholder> {
 
-        public LessionsAdapter(ArrayList<Lession> list) {
-            this.list = list;
-        }
+    private final ArrayList<Lession> list;
+    private final Context context;
 
-        @NonNull
-        @Override
-        public LessionsAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            context = parent.getContext();
+    //  Thêm biến để lưu trạng thái bài học đã xem
+    private final SharedPreferences preferences;
+    private final SharedPreferences.Editor editor;
 
-            ViewholderExerciseBinding binding = ViewholderExerciseBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-            return new Viewholder(binding);
-        }
+    //  Khởi tạo SharedPreferences trong constructor
+    public LessionsAdapter(Context context, ArrayList<Lession> list) {
+        this.context = context;
+        this.list = list;
+        preferences = context.getSharedPreferences("watched_videos", Context.MODE_PRIVATE);
+        editor = preferences.edit();
+    }
 
-        @Override
-        public void onBindViewHolder(@NonNull LessionsAdapter.Viewholder holder, int position) {
-            holder.binding.titleTxt.setText(list.get(position).getTitle());
-            holder.binding.durationTxt.setText(list.get(position).getDuration());
+    @NonNull
+    @Override
+    public LessionsAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ViewholderExerciseBinding binding = ViewholderExerciseBinding.inflate(
+                LayoutInflater.from(parent.getContext()), parent, false);
+        return new Viewholder(binding);
+    }
 
-            int resId = context.getResources().getIdentifier(list.get(position).getPicPath(), "drawable", context.getPackageName());
+    @Override
+    public void onBindViewHolder(@NonNull LessionsAdapter.Viewholder holder, int position) {
+        Lession lession = list.get(position);
 
-            Glide.with(context)
-                    .load(resId)
-                    .into(holder.binding.pic);
+        holder.binding.titleTxt.setText(lession.getTitle());
+        holder.binding.durationTxt.setText(lession.getDuration());
 
-            holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = holder.getAdapterPosition();
-                    if (pos != RecyclerView.NO_POSITION) {
-                        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + list.get(position) .getLink()));
-                        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + list.get(position).getLink()));
-                        try {
-                            context.startActivity(appIntent);
-                        } catch (ActivityNotFoundException ex) {
-                            context.startActivity(webIntent);
-                        }
-                    }
-                }
-            });
-        }
+        int resId = context.getResources().getIdentifier(
+                lession.getPicPath(), "drawable", context.getPackageName());
 
-        @Override
-        public int getItemCount() {
-            return list.size();
-        }
+        Glide.with(context).load(resId).into(holder.binding.pic);
 
-        public class Viewholder extends RecyclerView.ViewHolder {
-            ViewholderExerciseBinding binding;
+        //  Hiển thị dấu tích nếu đã xem
+        boolean isWatched = preferences.getBoolean("watched_" + lession.getLink(), false);
+        holder.binding.checkIcon.setVisibility(isWatched ? View.VISIBLE : View.GONE);
 
-            public Viewholder(ViewholderExerciseBinding binding) {
-                super(binding.getRoot());
-                this.binding = binding;
+        holder.binding.getRoot().setOnClickListener(v -> {
+            //  Khi người dùng nhấn vào bài học
+            Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + lession.getLink()));
+            Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + lession.getLink()));
+            try {
+                context.startActivity(appIntent);
+            } catch (ActivityNotFoundException ex) {
+                context.startActivity(webIntent);
             }
+
+            //  Ghi nhớ trạng thái đã xem
+            editor.putBoolean("watched_" + lession.getLink(), true);
+            editor.apply();
+
+            //  Cập nhật UI: hiện dấu tích xanh
+            holder.binding.checkIcon.setVisibility(View.VISIBLE);
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return list.size();
+    }
+
+    public static class Viewholder extends RecyclerView.ViewHolder {
+        ViewholderExerciseBinding binding;
+
+        public Viewholder(ViewholderExerciseBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
+}

@@ -1,64 +1,74 @@
 package com.example.gym.Activity;
 
-import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.bumptech.glide.Glide;
 import com.example.gym.Adapter.LessionsAdapter;
 import com.example.gym.Domain.Workout;
-import com.example.gym.R;
 import com.example.gym.databinding.ActivityWorkoutBinding;
 
 public class WorkoutActivity extends AppCompatActivity {
+
     ActivityWorkoutBinding binding;
     private Workout workout;
+    private LessionsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityWorkoutBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        getObject();
+
+        // Lấy workout được truyền qua từ Intent
+        workout = (Workout) getIntent().getSerializableExtra("object");
+
+        // Đổ dữ liệu vào UI
         setVariable();
 
-    }
+        // Gán adapter cho RecyclerView
+        adapter = new LessionsAdapter(this, workout.getLessions());
+        binding.View3.setLayoutManager(new LinearLayoutManager(this));
+        binding.View3.setAdapter(adapter);
 
-    private void getObject() {
-        workout = (Workout) getIntent().getSerializableExtra("object");
+        // Xử lý nút RESET WORKOUT
+        binding.button3.setText("RESET WORKOUT");
+        binding.button3.setOnClickListener(v -> resetWorkoutProgress());
     }
 
     private void setVariable() {
-        int resId = getResources().getIdentifier(workout.getPicPath(), "drawable", getPackageName());
+        int drawableResId = getResources().getIdentifier(workout.getPicPath(), "drawable", getPackageName());
+        binding.pic.setImageResource(drawableResId);
 
-        Glide.with(this)
-                .load(resId)
-                .into(binding.pic);
-
-
-        binding.backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
         binding.TitleTxt.setText(workout.getTitle());
-        binding.excersizeTxt.setText(workout.getLessions().size()+" Exercise");
-        binding.kcalTxt.setText(workout.getKcal()+" Kcal");
-        binding.durationeTxt.setText(workout.getDurationAll());
         binding.descriptionTxt.setText(workout.getDescription());
-        binding.View3.setLayoutManager(new LinearLayoutManager( WorkoutActivity.this, LinearLayoutManager. VERTICAL,false));
-        binding.View3.setAdapter(new LessionsAdapter(workout.getLessions()));
+        binding.kcalTxt.setText(workout.getKcal() + " kcal");
+        binding.durationeTxt.setText(workout.getDurationAll());
+        binding.excersizeTxt.setText(workout.getLessions().size() + " Exercises");
 
+        // Quay lại màn hình trước
+        binding.backBtn.setOnClickListener(v -> finish());
     }
 
+    // RESET trạng thái "đã xem" các bài học
+    private void resetWorkoutProgress() {
+        SharedPreferences preferences = getSharedPreferences("watched_videos", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        for (int i = 0; i < workout.getLessions().size(); i++) {
+            String key = "watched_" + workout.getLessions().get(i).getLink();
+            editor.remove(key); // Xoá từng trạng thái
+        }
+
+        editor.apply(); // Lưu lại thay đổi
+
+        // Cập nhật UI: gọi lại notifyDataSetChanged()
+        adapter.notifyDataSetChanged();
+
+        Toast.makeText(this, "Workout progress has been reset!", Toast.LENGTH_SHORT).show();
+    }
 }
