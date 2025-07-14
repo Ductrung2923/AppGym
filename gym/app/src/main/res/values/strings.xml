@@ -2,6 +2,21 @@
     <string name="app_name">gym</string>
     <string name="loginTxt">Are you have an account ? <font color="#FD511E">Signin</font> </string>
 
+    <string name="bmi_calculator">Máy tính BMI</string>
+    <string name="height">Chiều cao</string>
+    <string name="weight">Cân nặng</string>
+    <string name="age">Tuổi</string>
+    <string name="cm">cm</string>
+    <string name="kg">kg</string>
+    <string name="years_old">Tuổi</string>
+    <string name="male">Nam</string>
+    <string name="female">Nữ</string>
+    <string name="calculate_bmi">Tính BMI</string>
+    <string name="bmi_result_label">BMI của bạn là...</string>
+    <string name="bmi_PhanLoai">Phân Loại BMI</string>
+    <string name="bmi_categories_text">
+    Thiếu cân nghiêm trọng: &lt; 16\nThiếu cân: 16.0 - 18.4\nBình thường: 18.5 - 24.9\nThừa cân: 25.0 - 29.9\nBéo phì: &gt;= 30
+</string>
     <string-array name="level_options">
         <item>All</item>
         <item>Beginner</item>
