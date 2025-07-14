@@ -35,6 +35,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC3AuUSXU8EKLgpdikwhOy7sJQwyd9LiO8" />
 
+
+        <activity android:name=".Activity.BMIActivity" />
+
         <activity
             android:name=".Activity.WorkoutActivity"
             android:exported="false" />
@@ -50,15 +53,17 @@
         <activity
             android:name=".Activity.TrackingActivity"
             android:exported="false" />
-        <activity
-            android:name=".Activity.IntroActivity"
-            android:exported="true">
+        <activity android:name=".Activity.WorkoutDetailActivity" />
+
+          <activity
+              android:name=".Activity.IntroActivity"
+              android:exported="true" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+    </application>
 </manifest>
