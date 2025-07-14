@@ -125,7 +125,8 @@ public class MainActivity extends AppCompatActivity {
                 "plank_main", // ảnh đại diện bài Plank
                 100,
                 "10 min",
-                getLession_Plank()
+                getLession_Plank(),
+                "Beginner"
         ));
 
         list.add(new Workout(
@@ -134,7 +135,8 @@ public class MainActivity extends AppCompatActivity {
                 "abs_main", // ảnh đại diện bài
                 120,
                 "10 min",
-                getLession_Abs_Workout()
+                getLession_Abs_Workout(),
+                "Beginner"
         ));
 
         list.add(new Workout(
@@ -143,7 +145,8 @@ public class MainActivity extends AppCompatActivity {
                 "leg_main", // ảnh đại diện bài
                 180,
                 "20 min",
-                getLession_Leg_Workout()
+                getLession_Leg_Workout(),
+                "Intermediate"
         ));
 
         list.add(new Workout(
@@ -152,7 +155,8 @@ public class MainActivity extends AppCompatActivity {
                 "pilates_main", // ảnh đại diện bài
                 180,
                 "40 min",
-                getLession_Pilates()
+                getLession_Pilates(),
+                "Advanced"
         ));
 
         return list;
