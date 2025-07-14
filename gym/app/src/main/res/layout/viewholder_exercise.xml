@@ -7,6 +7,7 @@
     android:layout_margin="8dp"
     android:background="@drawable/blue_bg">
 
+    <!-- Ảnh bài tập -->
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/pic"
         android:layout_width="70dp"
@@ -19,6 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
+    <!-- Tiêu đề bài tập -->
     <TextView
         android:id="@+id/titleTxt"
         android:layout_width="wrap_content"
@@ -31,6 +33,7 @@
         app:layout_constraintStart_toEndOf="@+id/pic"
         app:layout_constraintTop_toTopOf="@+id/pic" />
 
+    <!-- Thời lượng -->
     <TextView
         android:id="@+id/durationTxt"
         android:layout_width="wrap_content"
@@ -41,6 +44,19 @@
         app:layout_constraintStart_toStartOf="@+id/titleTxt"
         app:layout_constraintTop_toBottomOf="@+id/titleTxt" />
 
+    <!-- Icon ✅ hiển thị khi đã xem -->
+    <ImageView
+        android:id="@+id/checkIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="4dp"
+        android:visibility="gone"
+        android:src="@drawable/dau_tich_xanh"
+        app:layout_constraintEnd_toStartOf="@+id/imageView9"
+        app:layout_constraintTop_toTopOf="@+id/imageView9"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView9" />
+
+    <!-- Nút Play -->
     <ImageView
         android:id="@+id/imageView9"
         android:layout_width="41dp"

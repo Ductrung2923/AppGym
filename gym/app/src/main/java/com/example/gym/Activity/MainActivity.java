@@ -125,7 +125,8 @@ public class MainActivity extends AppCompatActivity {
                 "plank_main", // ảnh đại diện bài Plank
                 100,
                 "10 min",
-                getLession_Plank()
+                getLession_Plank(),
+                "Beginner"
         ));
 
         list.add(new Workout(
@@ -134,7 +135,8 @@ public class MainActivity extends AppCompatActivity {
                 "abs_main", // ảnh đại diện bài
                 120,
                 "10 min",
-                getLession_Abs_Workout()
+                getLession_Abs_Workout(),
+                "Intermediate"
         ));
 
         list.add(new Workout(
@@ -143,7 +145,8 @@ public class MainActivity extends AppCompatActivity {
                 "leg_main", // ảnh đại diện bài
                 180,
                 "20 min",
-                getLession_Leg_Workout()
+                getLession_Leg_Workout(),
+                "Advanced"
         ));
 
         list.add(new Workout(
@@ -152,7 +155,8 @@ public class MainActivity extends AppCompatActivity {
                 "pilates_main", // ảnh đại diện bài
                 180,
                 "40 min",
-                getLession_Pilates()
+                getLession_Pilates(),
+                "Beginner"
         ));
 
         return list;
@@ -164,9 +168,11 @@ public class MainActivity extends AppCompatActivity {
 
         list.add(new Lession("Lesson 1","2UT67RyDces?si=_VedtaWmwkE03hHB","HBPMvFkpNgE","pic_1_1"));
 
+
         list.add(new Lession("Lesson 2","MiLuh0RpEGk?si=L1ROX2XGrcT0PLRu","K6124WgiiPw","pic_1_2"));
 
-        list.add(new Lession("Lesson 3","01:57","Zc08v4YY0eA","pic_1_3"));
+
+        list.add(new Lession("Lesson 3","AiohKZonPbo?si=luZ2DS4JDpfOmXGd","Zc08v4YY0eA","pic_1_3"));
 
 
         return list;
@@ -174,10 +180,10 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Lession> getLession_2() {
         ArrayList<Lession> list = new ArrayList<>();
-        list.add(new Lession("Lesson 1", "20:23", "L3eImBAXT7I", "pic_3_1"));
-        list.add(new Lession("Lesson 2", "18:27", "47Exgz07FLU", "pic_3_2"));
-        list.add(new Lession("Lesson 3", "32:25", "0mLx8tmaQ-4", "pic_3_3"));
-        list.add(new Lession("Lesson 4", "07:52", "w86EalEoFRY", "pic_3_4"));
+        list.add(new Lession("Lesson 1", "itJE4neqDJw?si=LA9Hrjum62fvi0ui", "L3eImBAXT7I", "pic_3_1"));
+        list.add(new Lession("Lesson 2", "i6TzP2COtow?si=G7s4z4pSHSTj8DqA", "47Exgz07FLU", "pic_3_2"));
+        list.add(new Lession("Lesson 3", "FI51zRzgIe4?si=CmM-e3nNtVge5ahI", "0mLx8tmaQ-4", "pic_3_3"));
+        list.add(new Lession("Lesson 4", "t2jel6q1GRk?si=RdSMqZzLwKVozc9d", "w86EalEoFRY", "pic_3_4"));
         return list;
     }
 
@@ -215,8 +221,8 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Lession> list = new ArrayList<>();
 
         list.add(new Lession("Lesson Squat", "r78WzW27-UI?si=6T4yDAWy2RU7Kugo", "00:20", "leg1"));
-        list.add(new Lession("Lesson Static Lunge R", "r78WzW27-UI?si=YyNUb4oW3ZNhp55m", "06:20", "leg2"));
-        list.add(new Lession("Lesson Deadlift", "r78WzW27-UI?si=6T4yDAWy2RU7Kugo", "04:20", "leg3"));
+        list.add(new Lession("Lesson Static Lunge R", "345", "06:20", "leg2"));
+        list.add(new Lession("Lesson Deadlift", "678", "04:20", "leg3"));
 
         return list;
     }
@@ -225,8 +231,8 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Lession> list = new ArrayList<>();
 
         list.add(new Lession("Lesson 1", "zbK-HgqWClA?si=1SOJhoQI1547vjBt", "00:20", "pilates1"));
-        list.add(new Lession("Lesson 2", "zbK-HgqWClA?si=1SOJhoQI1547vjBt", "06:20", "pilates2"));
-        list.add(new Lession("Lesson 3", "zbK-HgqWClA?si=1SOJhoQI1547vjBt", "04:20", "pilates3"));
+        list.add(new Lession("Lesson 2", "123", "06:20", "pilates2"));
+        list.add(new Lession("Lesson 3", "234", "04:20", "pilates3"));
 
         return list;
     }
