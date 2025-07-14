@@ -22,12 +22,14 @@ public class WorkoutDetailActivity extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private boolean isRunning = false;
     private boolean isStarted = false;
+    private Button btnIncreaseTime, btnDecreaseTime;
 
-    private long remainingMillis = 1 * 60 * 1000; // 1 phút mặc định
+    private long remainingMillis = 30 * 60 * 1000; // 1 phút mặc định
     private long totalMillis = remainingMillis;    // Tổng thời gian để tính phần trăm
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_detail);
 
@@ -44,6 +46,8 @@ public class WorkoutDetailActivity extends AppCompatActivity {
                 startTimer();
                 isStarted = true;
                 btnStart.setEnabled(false);
+                btnIncreaseTime.setEnabled(false);
+                btnDecreaseTime.setEnabled(false);
                 btnPauseResume.setEnabled(true);
             }
         });
@@ -53,6 +57,23 @@ public class WorkoutDetailActivity extends AppCompatActivity {
                 pauseTimer();
             } else {
                 resumeTimer();
+            }
+        });
+        btnIncreaseTime = findViewById(R.id.btnIncreaseTime);
+        btnDecreaseTime = findViewById(R.id.btnDecreaseTime);
+        btnIncreaseTime.setOnClickListener(v -> {
+            if (!isStarted) {
+                remainingMillis += 60 * 1000; // +1 phút
+                totalMillis = remainingMillis;
+                updateTimerText();
+            }
+        });
+
+        btnDecreaseTime.setOnClickListener(v -> {
+            if (!isStarted && remainingMillis > 60 * 1000) {
+                remainingMillis -= 60 * 1000; // -1 phút
+                totalMillis = remainingMillis;
+                updateTimerText();
             }
         });
     }

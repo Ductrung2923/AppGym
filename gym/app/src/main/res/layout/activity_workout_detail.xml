@@ -53,15 +53,46 @@
                 android:textStyle="bold"
                 android:textColor="@android:color/black" />
 
-            <TextView
-                android:id="@+id/timerText"
+            <LinearLayout
+                android:id="@+id/timerControlLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="50:00"
-                android:textSize="48sp"
-                android:textStyle="bold"
-                android:textColor="#FFA500"
-                android:layout_marginTop="1dp" />
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="12dp">
+
+                <Button
+                    android:id="@+id/btnDecreaseTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="#B71C1C"
+                    android:textSize="14sp"
+                    android:layout_marginEnd="8dp"/>
+
+                <TextView
+                    android:id="@+id/timerText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="50:00"
+                    android:textSize="48sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFA500"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"/>
+
+                <Button
+                    android:id="@+id/btnIncreaseTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="#2E7D32"
+                    android:textSize="14sp"
+                    android:layout_marginStart="8dp"/>
+            </LinearLayout>
+
 
             <Button
                 android:id="@+id/btnPauseResume"
