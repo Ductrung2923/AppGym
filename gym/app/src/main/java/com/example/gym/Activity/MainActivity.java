@@ -3,8 +3,6 @@ package com.example.gym.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -25,11 +23,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-
     private ImageView imgButtMapRun;
     private ImageView buttonProfile;
-
-
     private LinearLayout favoriteTab;
     private ImageView cartIcon;
     private CoordinatorLayout bottomNavBar;
@@ -37,50 +32,45 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     Spinner levelSpinner;
 
-    ArrayList<Workout> allWorkouts; // 👉 giữ danh sách gốc để lọc lại
+    ArrayList<Workout> allWorkouts; // Toàn bộ danh sách workout gốc
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-       // getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-// Gán layout horizontal cho RecyclerView
+
+        allWorkouts = getData(); // 👉 Dữ liệu gốc
+
+        // Setup RecyclerView
         binding.view1.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
-        binding.view1.setAdapter(new WorkutAdapter(getData()));
-
-        // ✅ Bước 4: Bắt sự kiện click để mở BMIActivity
-        binding.calculate.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, BMIActivity.class));
-        });
-
-        binding.view1.setLayoutManager(new LinearLayoutManager(MainActivity.this,LinearLayoutManager.HORIZONTAL,false));
-        binding.view1.setAdapter(new WorkutAdapter(getData()));
+        binding.view1.setAdapter(new WorkutAdapter(allWorkouts));
 
         BindingView();
         BindingAction();
-
+        setupSpinner(); // 🟢 Gọi hàm Spinner lọc bài tập
     }
-
-
 
     private void BindingView() {
         imgButtMapRun = findViewById(R.id.MapsRun);
         buttonProfile = findViewById(R.id.imgButProfile);
-
         favoriteTab = findViewById(R.id.nav_favorite);
         cartIcon = findViewById(R.id.cartIcon);
         bottomNavBar = findViewById(R.id.bottomNavBar);
-
+        levelSpinner = findViewById(R.id.levelSpinner); // 🟢 spinner đã được khai báo ở layout
     }
 
     private void BindingAction() {
-        imgButtMapRun.setOnClickListener(this:: MapRunButton);
-        buttonProfile.setOnClickListener(this:: ProfileButton);
+        imgButtMapRun.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, TrackingActivity.class));
+        });
+
+        buttonProfile.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        });
 
         favoriteTab.setOnClickListener(view -> {
             bottomNavBar.setVisibility(View.GONE);
-
             getSupportFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(
@@ -99,24 +89,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        // Mở BMIActivity
+        binding.calculate.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, BMIActivity.class));
+        });
     }
 
-    private void ProfileButton(View view) {
-        startActivity(new Intent(MainActivity.this, LoginActivity.class));
-    }
-
-    private void MapRunButton(View view) {
-
-        startActivity(new Intent(MainActivity.this, TrackingActivity.class));
-        // Dữ liệu gốc
-        allWorkouts = getData();
-
-        // RecyclerView setup
-        binding.view1.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
-        binding.view1.setAdapter(new WorkutAdapter(allWorkouts));
-
-        // Spinner setup
-        levelSpinner = findViewById(R.id.levelSpinner);
+    // ✅ Thiết lập Spinner và lọc danh sách
+    private void setupSpinner() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.level_options,
@@ -125,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         levelSpinner.setAdapter(adapter);
 
-        // Spinner chọn -> lọc danh sách
         levelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -144,9 +123,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
         });
-
     }
-
     private ArrayList<Workout> getData() {
         ArrayList<Workout> list = new ArrayList<>();
 
