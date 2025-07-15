@@ -9,7 +9,7 @@ public class Lession implements Serializable {
     private String link;
     private String picPath;
 
-    public Lession(String picPath, String link, String duration, String title) {
+    public Lession(String title, String link, String duration, String picPath) {
         this.picPath = picPath;
         this.link = link;
         this.duration = duration;
