@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#6c757d"
-        android:text="← Quay lại"
+        android:text="← Back"
         android:textColor="#ffffff"
         android:textSize="14sp"
         android:visibility="gone"
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:src="@color/orange"
-            android:text="Chọn giới tính"
+            android:text="Select gender"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold" />

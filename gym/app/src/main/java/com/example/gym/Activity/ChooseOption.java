@@ -54,24 +54,24 @@ public class ChooseOption extends AppCompatActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "Lỗi khởi tạo: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error create: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
     private void setupInitialScreen() {
         if (titleText != null) {
-            titleText.setText("Chọn giới tính");
+            titleText.setText("Gender");
         }
         if (backButton != null) {
             backButton.setVisibility(View.GONE);
         }
 
-        createButtons(new String[]{"Nam", "Nữ"}, "gender");
+        createButtons(new String[]{"Male", "Female"}, "gender");
     }
 
     private void createButtons(String[] options, String category) {
         if (buttonContainer == null) {
-            Toast.makeText(this, "ButtonContainer không tìm thấy!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Cannot see ButtonContainer!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -81,7 +81,7 @@ public class ChooseOption extends AppCompatActivity {
             Button button = new Button(this);
             button.setText(option);
 
-            // Tạo layout params
+            // Create layout params
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
@@ -104,7 +104,7 @@ public class ChooseOption extends AppCompatActivity {
     }
 
     private void handleSelection(String selection, String category) {
-        // Lưu lịch sử navigation
+        // Save navigation history
         navigationHistory.add(currentSelection);
         currentSelection += (currentSelection.isEmpty() ? "" : " -> ") + selection;
 
@@ -126,17 +126,17 @@ public class ChooseOption extends AppCompatActivity {
 
     private void showMuscleGroups(String gender) {
         if (titleText != null) {
-            titleText.setText("Chọn nhóm cơ muốn tập");
+            titleText.setText("Choose Muscle Group");
         }
         if (backButton != null) {
             backButton.setVisibility(View.VISIBLE);
         }
 
         String[] muscleGroups;
-        if (gender.equals("Nam")) {
-            muscleGroups = new String[]{"Ngực", "Lưng", "Vai", "Tay", "Chân", "Bụng"};
+        if (gender.equals("Male")) {
+            muscleGroups = new String[]{"Chest", "Back", "Shoulders", "Arms", "Legs", "Abs"};
         } else {
-            muscleGroups = new String[]{"Chân", "Mông", "Bụng", "Tay", "Lưng", "Yoga"};
+            muscleGroups = new String[]{"Legs", "Glutes", "Abs", "Arms", "Back", "Yoga"};
         }
 
         createButtons(muscleGroups, "muscle_group");
@@ -144,37 +144,37 @@ public class ChooseOption extends AppCompatActivity {
 
     private void showExercises(String muscleGroup) {
         if (titleText != null) {
-            titleText.setText("Chọn bài tập " + muscleGroup);
+            titleText.setText("Choose " + muscleGroup + " Exercise");
         }
 
         String[] exercises;
         switch (muscleGroup) {
-            case "Ngực":
+            case "Chest":
                 exercises = new String[]{"Push-up", "Bench Press", "Dumbbell Flyes", "Dips"};
                 break;
-            case "Lưng":
+            case "Back":
                 exercises = new String[]{"Pull-up", "Lat Pulldown", "Rowing", "Deadlift"};
                 break;
-            case "Vai":
+            case "Shoulders":
                 exercises = new String[]{"Shoulder Press", "Lateral Raises", "Front Raises", "Shrugs"};
                 break;
-            case "Tay":
+            case "Arms":
                 exercises = new String[]{"Bicep Curls", "Tricep Dips", "Hammer Curls", "Close-grip Push-ups"};
                 break;
-            case "Chân":
+            case "Legs":
                 exercises = new String[]{"Squats", "Lunges", "Calf Raises", "Leg Press"};
                 break;
-            case "Bụng":
+            case "Abs":
                 exercises = new String[]{"Crunches", "Plank", "Russian Twists", "Leg Raises"};
                 break;
-            case "Mông":
+            case "Glutes":
                 exercises = new String[]{"Hip Thrusts", "Glute Bridges", "Bulgarian Split Squats", "Clamshells"};
                 break;
             case "Yoga":
                 exercises = new String[]{"Sun Salutation", "Warrior Poses", "Tree Pose", "Downward Dog"};
                 break;
             default:
-                exercises = new String[]{"Bài tập cơ bản", "Bài tập nâng cao"};
+                exercises = new String[]{"Basic Exercise", "Advanced Exercise"};
         }
 
         createButtons(exercises, "exercise");
@@ -182,28 +182,47 @@ public class ChooseOption extends AppCompatActivity {
 
     private void showExerciseDetails(String exercise) {
         if (titleText != null) {
-            titleText.setText("Chọn mức độ khó");
+            titleText.setText("Choose Difficulty Level");
         }
 
-        String[] difficulties = new String[]{"Người mới bắt đầu", "Trung bình", "Nâng cao", "Chuyên nghiệp"};
+        String[] difficulties = new String[]{"Beginner", "Intermediate", "Advanced", "Professional"};
         createButtons(difficulties, "difficulty");
     }
 
     private void showWorkoutPlan(String difficulty) {
         if (titleText != null) {
-            titleText.setText("Kế hoạch tập luyện");
+            titleText.setText("Workout Plan");
         }
         if (buttonContainer != null) {
             buttonContainer.removeAllViews();
         }
 
-        // Tạo TextView hiển thị kế hoạch
+        // Determine workout time based on difficulty level
+        String workoutTime;
+        switch (difficulty) {
+            case "Beginner":
+                workoutTime = "15-20 minutes";
+                break;
+            case "Intermediate":
+                workoutTime = "25-30 minutes";
+                break;
+            case "Advanced":
+                workoutTime = "35-40 minutes";
+                break;
+            case "Professional":
+                workoutTime = "40-45 minutes";
+                break;
+            default:
+                workoutTime = "30-45 minutes";
+        }
+
+        // Create TextView to display plan
         TextView planText = new TextView(this);
-        planText.setText("🎯 Kế hoạch tập luyện của bạn:\n\n" +
-                "📋 Lựa chọn: " + currentSelection + "\n" +
-                "⏰ Thời gian: 30-45 phút\n" +
-                "🔥 Mức độ: " + difficulty + "\n\n" +
-                "Bạn đã sẵn sàng bắt đầu tập luyện!");
+        planText.setText("🎯 Your Workout Plan:\n\n" +
+                "📋 Selection: " + currentSelection + "\n" +
+                "⏰ Duration: " + workoutTime + "\n" +
+                "🔥 Level: " + difficulty + "\n\n" +
+                "Are you ready to start your workout?");
 
         planText.setTextSize(16);
         planText.setPadding(40, 40, 40, 40);
@@ -220,9 +239,9 @@ public class ChooseOption extends AppCompatActivity {
             buttonContainer.addView(planText);
         }
 
-        // Nút bắt đầu tập luyện
+        // Start workout button
         Button startButton = new Button(this);
-        startButton.setText("Bắt đầu tập luyện");
+        startButton.setText("Start Workout");
 
         LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -235,7 +254,7 @@ public class ChooseOption extends AppCompatActivity {
         startButton.setTextColor(0xFFFFFFFF);
 
         startButton.setOnClickListener(v -> {
-            Toast.makeText(this, "Bắt đầu tập luyện!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Starting workout!", Toast.LENGTH_SHORT).show();
 
             String[] parts = currentSelection.split(" -> ");
             if (parts.length >= 3) {
@@ -248,8 +267,7 @@ public class ChooseOption extends AppCompatActivity {
                 db.saveUserSelection(selection);
             }
 
-
-            // Ở đây bạn có thể chuyển đến màn hình tập luyện
+            // Here you can navigate to workout screen
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -259,9 +277,9 @@ public class ChooseOption extends AppCompatActivity {
             buttonContainer.addView(startButton);
         }
 
-        // Nút tạo kế hoạch mới
+        // Create new plan button
         Button newPlanButton = new Button(this);
-        newPlanButton.setText("Tạo kế hoạch mới");
+        newPlanButton.setText("Create New Plan");
 
         LinearLayout.LayoutParams newButtonParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,

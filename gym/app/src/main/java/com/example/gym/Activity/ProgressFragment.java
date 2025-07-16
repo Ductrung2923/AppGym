@@ -144,7 +144,7 @@ public class ProgressFragment extends Fragment {
             addSessionCard("Yoga", "30 min", R.drawable.jogging_image);
         } else {
             TextView noData = new TextView(requireContext());
-            noData.setText("Không có lịch sử tập");
+
             noData.setTextSize(16);
             noData.setTextColor(Color.GRAY);
             noData.setGravity(Gravity.CENTER);
