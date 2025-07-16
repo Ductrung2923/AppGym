@@ -33,6 +33,7 @@ public class ProgressFragment extends Fragment {
     ImageView btnPrevWeek, btnNextWeek;
     Calendar currentWeekStart;
     TextView weekTitle;
+    TextView motivationText;
 
     @Nullable
     @Override
@@ -41,6 +42,7 @@ public class ProgressFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_progress, container, false);
         weekTitle = view.findViewById(R.id.weekTitle);
+        motivationText = view.findViewById(R.id.motivationText);
 
         progressBar = view.findViewById(R.id.progressBar);
         progressText = view.findViewById(R.id.progressText);
@@ -157,27 +159,35 @@ public class ProgressFragment extends Fragment {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String dateStr = sdf.format(selectedDate.getTime());
 
-        // Ưu tiên phần trăm nếu có
         float percent = prefs.getFloat("progress_" + dateStr, -1f);
+        int finalPercent;
 
         if (percent >= 0) {
-            // Có dữ liệu phần trăm
             int displayPercent = Math.min(100, Math.round(percent));
             progressBar.setProgress(displayPercent);
             progressText.setText(displayPercent + "%");
+            finalPercent = displayPercent;
         } else {
-            // Nếu không có phần trăm, fallback sang số phút
             int completedMinutes = prefs.getInt("completed_" + dateStr, 0);
-            int goalMinutes = 15; // fallback mặc định
-
-            // Tính phần trăm dựa trên số phút
+            int goalMinutes = 15;
             int fallbackPercent = (int) ((completedMinutes / (float) goalMinutes) * 100);
             fallbackPercent = Math.max(0, Math.min(100, fallbackPercent));
-
             progressBar.setProgress(fallbackPercent);
             progressText.setText(fallbackPercent + "%");
+            finalPercent = fallbackPercent;
         }
+
+        // 🎯 Thêm lời chúc theo phần trăm
+        if (finalPercent < 30) {
+            motivationText.setText("Keep going, you’ve got this!");
+        } else if (finalPercent < 99) {
+            motivationText.setText("Stay consistent, you’re doing great!");
+        } else {
+            motivationText.setText("Congratulations! You've completed your goal!");
+        }
+
     }
+
 
     // ✅ ĐÃ di chuyển vào đúng trong class
     private void addSessionCard(String title, String time, int imageRes) {
