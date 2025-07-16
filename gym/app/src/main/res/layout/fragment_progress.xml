@@ -112,9 +112,10 @@
             android:backgroundTintMode="src_atop">
 
             <TextView
+                android:id="@+id/motivationText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="Have a great workout!"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:textSize="18sp"
