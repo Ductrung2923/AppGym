@@ -24,7 +24,7 @@ public class WorkoutDetailActivity extends AppCompatActivity {
     private boolean isStarted = false;
     private Button btnIncreaseTime, btnDecreaseTime;
 
-    private long remainingMillis = 30 * 60 * 1000; // 1 phút mặc định
+    private long remainingMillis = 30 * 60 * 1000;
     private long totalMillis = remainingMillis;    // Tổng thời gian để tính phần trăm
 
     @Override
@@ -36,6 +36,12 @@ public class WorkoutDetailActivity extends AppCompatActivity {
         timerText = findViewById(R.id.timerText);
         btnStart = findViewById(R.id.btnStart);
         btnPauseResume = findViewById(R.id.btnPauseResume);
+        SharedPreferences prefs = getSharedPreferences("workout_progress", MODE_PRIVATE);
+        remainingMillis = prefs.getLong("remaining_time", 30 * 60 * 1000);
+        if (remainingMillis == 0) {
+            remainingMillis = 30 * 60 * 1000;
+        }
+        totalMillis = prefs.getLong("total_time", remainingMillis); //
 
         updateTimerText(); // Hiển thị thời gian ban đầu
 
@@ -93,6 +99,8 @@ public class WorkoutDetailActivity extends AppCompatActivity {
                 btnPauseResume.setEnabled(false);
 
                 saveProgressPercent(); // 100% hoàn thành
+                SharedPreferences prefs = getSharedPreferences("workout_progress", MODE_PRIVATE);
+                prefs.edit().remove("remaining_time").apply();
             }
         };
         countDownTimer.start();
@@ -134,6 +142,16 @@ public class WorkoutDetailActivity extends AppCompatActivity {
         super.onPause();
         if (isStarted) {
             saveProgressPercent(); // Lưu phần trăm trước khi rời Activity
+            saveRemainingTime(); // <--- THÊM DÒNG NÀY
         }
     }
+    private void saveRemainingTime() {
+        SharedPreferences prefs = getSharedPreferences("workout_progress", MODE_PRIVATE);
+        prefs.edit()
+                .putLong("remaining_time", remainingMillis)
+                .putLong("total_time", totalMillis) // 👈 Thêm dòng này
+                .apply();
+    }
+
+
 }
