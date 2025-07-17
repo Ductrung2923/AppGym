@@ -35,9 +35,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC3AuUSXU8EKLgpdikwhOy7sJQwyd9LiO8" />
 
-
-        <activity android:name=".Activity.BMIActivity" />
-
         <activity
             android:name=".Activity.WorkoutActivity"
             android:exported="false" />
@@ -54,8 +51,10 @@
             android:name=".Activity.TrackingActivity"
             android:exported="false" />
         <activity android:name=".Activity.WorkoutDetailActivity" />
+        <activity android:name=".Activity.PlanActivity" />
+        <activity android:name=".Activity.PlanDetailActivity"/>
 
-          <activity
+        <activity
               android:name=".Activity.IntroActivity"
               android:exported="true" >
 

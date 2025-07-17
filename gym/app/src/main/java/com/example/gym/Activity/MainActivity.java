@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout favoriteTab;
     private ImageView cartIcon;
     private CoordinatorLayout bottomNavBar;
-
+    private ImageView calculateIcon;
     ActivityMainBinding binding;
     Spinner levelSpinner;
 
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         BindingView();
         BindingAction();
         setupSpinner(); // 🟢 Gọi hàm Spinner lọc bài tập
+
     }
 
     private void BindingView() {
@@ -58,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         cartIcon = findViewById(R.id.cartIcon);
         bottomNavBar = findViewById(R.id.bottomNavBar);
         levelSpinner = findViewById(R.id.levelSpinner); // 🟢 spinner đã được khai báo ở layout
+        calculateIcon = findViewById(R.id.calculate);
+
     }
 
     private void BindingAction() {
@@ -88,11 +91,22 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, WorkoutDetailActivity.class);
             startActivity(intent);
         });
+        calculateIcon.setOnClickListener(v -> {
+            bottomNavBar.setVisibility(View.GONE); // Ẩn thanh điều hướng dưới
 
-        // Mở BMIActivity
-        binding.calculate.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, BMIActivity.class));
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(
+                            android.R.anim.slide_in_left,
+                            android.R.anim.fade_out,
+                            android.R.anim.slide_in_left,
+                            android.R.anim.fade_out
+                    )
+                    .replace(R.id.main, new LibraryFragment()) // Thay frame chính bằng LibraryFragment
+                    .addToBackStack("library")
+                    .commit();
         });
+
     }
 
     // ✅ Thiết lập Spinner và lọc danh sách
