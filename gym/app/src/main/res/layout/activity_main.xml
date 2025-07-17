@@ -405,7 +405,7 @@
                         android:id="@+id/calculate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/outline_list_alt_24"
+                        app:srcCompat="@drawable/baseline_calculate_24"
                         app:tint="@color/white" />
 
                     <TextView

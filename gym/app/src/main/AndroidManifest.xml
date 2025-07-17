@@ -52,6 +52,7 @@
             android:exported="false" />
         <activity android:name=".Activity.WorkoutDetailActivity" />
         <activity android:name=".Activity.PlanActivity" />
+        <activity android:name=".Activity.BMIActivity" />
         <activity android:name=".Activity.PlanDetailActivity"/>
 
         <activity

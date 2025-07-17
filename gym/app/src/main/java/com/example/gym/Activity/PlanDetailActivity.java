@@ -51,7 +51,7 @@ public class PlanDetailActivity extends AppCompatActivity {
         exerciseList.add(new Exercise("Lat Pulldown", "4 sets x 10-12 reps", R.drawable.lat_pulldown, R.drawable.ic_back));
         exerciseList.add(new Exercise("Back Extension", "3 sets x 8-10 reps", R.drawable.back_extension, R.drawable.ic_back));
         exerciseList.add(new Exercise("Leg Curl", "3 sets x 10-12 reps", R.drawable.leg_curl, R.drawable.ic_leg));
-/*
+
         exerciseList.add(new Exercise("Selector Chest Press Machine", "4 sets x 10-12 reps", R.drawable.program1, R.drawable.ic_chest));
         exerciseList.add(new Exercise("Hack Squat", "3 sets x 8-10 reps", R.drawable.program1, R.drawable.ic_leg));
         exerciseList.add(new Exercise("Superman", "3 sets", R.drawable.program1, R.drawable.ic_back));
@@ -67,7 +67,7 @@ public class PlanDetailActivity extends AppCompatActivity {
 
         Collections.shuffle(exerciseList); // Đảo ngẫu nhiên
         exerciseList = exerciseList.subList(0, 6); // Lấy 6 bài đầu
-*/
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new ExerciseAdapter(exerciseList));
 
@@ -82,4 +82,4 @@ public class PlanDetailActivity extends AppCompatActivity {
 
     }
 }
-
+//

@@ -39,7 +39,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        binding.view1.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        binding.view1.setAdapter(new WorkutAdapter(getData()));
 
+        // ✅ Bước 4: Bắt sự kiện click để mở BMIActivity
+        binding.calculate.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, BMIActivity.class));
+        });
         allWorkouts = getData(); // 👉 Dữ liệu gốc
 
         // Setup RecyclerView
@@ -91,9 +97,15 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, WorkoutDetailActivity.class);
             startActivity(intent);
         });
+
+        calculateIcon.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, BMIActivity.class);
+            startActivity(intent);
+        });
+
+/*
         calculateIcon.setOnClickListener(v -> {
             bottomNavBar.setVisibility(View.GONE); // Ẩn thanh điều hướng dưới
-
             getSupportFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(
@@ -106,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                     .addToBackStack("library")
                     .commit();
         });
-
+*/
     }
 
     // ✅ Thiết lập Spinner và lọc danh sách
@@ -403,5 +415,5 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed(); // Thoát Activity nếu không còn fragment nào
         }
     }
-
+//
 }
