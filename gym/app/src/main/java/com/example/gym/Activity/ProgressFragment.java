@@ -85,7 +85,6 @@ public class ProgressFragment extends Fragment {
 
         for (int i = 0; i < 7; i++) {
             String dateLabel = sdf.format(calendar.getTime());
-
             TextView dateView = new TextView(requireContext());
             dateView.setText(dateLabel);
             dateView.setTextSize(14);
@@ -155,6 +154,7 @@ public class ProgressFragment extends Fragment {
     }
 
     private void updateProgressForDate(Calendar selectedDate) {
+
         SharedPreferences prefs = requireContext().getSharedPreferences("workout_progress", Context.MODE_PRIVATE);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String dateStr = sdf.format(selectedDate.getTime());
@@ -221,4 +221,5 @@ public class ProgressFragment extends Fragment {
 
         sessionLayout.addView(card);
     }
-}
+
+    }
