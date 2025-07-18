@@ -23,6 +23,7 @@ public class ChooseOption extends AppCompatActivity {
     private Button backButton;
     private List<String> navigationHistory;
     private String currentSelection = "";
+    private String optionActive = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +105,6 @@ public class ChooseOption extends AppCompatActivity {
     }
 
     private void handleSelection(String selection, String category) {
-        // Save navigation history
         navigationHistory.add(currentSelection);
         currentSelection += (currentSelection.isEmpty() ? "" : " -> ") + selection;
 
@@ -113,9 +113,7 @@ public class ChooseOption extends AppCompatActivity {
                 showMuscleGroups(selection);
                 break;
             case "muscle_group":
-                showExercises(selection);
-                break;
-            case "exercise":
+                optionActive = selection; // GÁN LUÔN Ở ĐÂY!
                 showExerciseDetails(selection);
                 break;
             case "difficulty":
@@ -123,6 +121,7 @@ public class ChooseOption extends AppCompatActivity {
                 break;
         }
     }
+
 
     private void showMuscleGroups(String gender) {
         if (titleText != null) {
@@ -134,53 +133,15 @@ public class ChooseOption extends AppCompatActivity {
 
         String[] muscleGroups;
         if (gender.equals("Male")) {
-            muscleGroups = new String[]{"Chest", "Back", "Shoulders", "Arms", "Legs", "Abs"};
+            muscleGroups = new String[]{"Running", "Stretching", "Abs_Workout", "Plank", "Leg_Workout", "Abs"};
         } else {
-            muscleGroups = new String[]{"Legs", "Glutes", "Abs", "Arms", "Back", "Yoga"};
+            muscleGroups = new String[]{"Legs", "Yoga", "Pilates", "Burpee", "Squat"};
         }
 
         createButtons(muscleGroups, "muscle_group");
     }
 
-    private void showExercises(String muscleGroup) {
-        if (titleText != null) {
-            titleText.setText("Choose " + muscleGroup + " Exercise");
-        }
-
-        String[] exercises;
-        switch (muscleGroup) {
-            case "Chest":
-                exercises = new String[]{"Push-up", "Bench Press", "Dumbbell Flyes", "Dips"};
-                break;
-            case "Back":
-                exercises = new String[]{"Pull-up", "Lat Pulldown", "Rowing", "Deadlift"};
-                break;
-            case "Shoulders":
-                exercises = new String[]{"Shoulder Press", "Lateral Raises", "Front Raises", "Shrugs"};
-                break;
-            case "Arms":
-                exercises = new String[]{"Bicep Curls", "Tricep Dips", "Hammer Curls", "Close-grip Push-ups"};
-                break;
-            case "Legs":
-                exercises = new String[]{"Squats", "Lunges", "Calf Raises", "Leg Press"};
-                break;
-            case "Abs":
-                exercises = new String[]{"Crunches", "Plank", "Russian Twists", "Leg Raises"};
-                break;
-            case "Glutes":
-                exercises = new String[]{"Hip Thrusts", "Glute Bridges", "Bulgarian Split Squats", "Clamshells"};
-                break;
-            case "Yoga":
-                exercises = new String[]{"Sun Salutation", "Warrior Poses", "Tree Pose", "Downward Dog"};
-                break;
-            default:
-                exercises = new String[]{"Basic Exercise", "Advanced Exercise"};
-        }
-
-        createButtons(exercises, "exercise");
-    }
-
-    private void showExerciseDetails(String exercise) {
+    private void showExerciseDetails(String muscleGroup) {
         if (titleText != null) {
             titleText.setText("Choose Difficulty Level");
         }
@@ -260,15 +221,15 @@ public class ChooseOption extends AppCompatActivity {
             if (parts.length >= 3) {
                 String gender = parts[0];
                 String muscle = parts[1];
-                String exercise = parts[2];
 
-                UserSelection selection = new UserSelection(gender, muscle, exercise, difficulty);
+                UserSelection selection = new UserSelection(gender, muscle, difficulty);
                 DatabaseHelper db = new DatabaseHelper(this);
                 db.saveUserSelection(selection);
             }
 
             // Here you can navigate to workout screen
             Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("selected_workout", optionActive); // Gửi tên bài tập về MainActivity
             startActivity(intent);
             finish();
         });
@@ -325,10 +286,7 @@ public class ChooseOption extends AppCompatActivity {
                         showMuscleGroups(navigationHistory.get(0));
                         break;
                     case 2:
-                        showExercises(navigationHistory.get(1));
-                        break;
-                    case 3:
-                        showExerciseDetails(navigationHistory.get(2));
+                        showExerciseDetails(navigationHistory.get(1));
                         break;
                 }
             }

@@ -25,7 +25,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "gender TEXT, " +
                 "muscle_group TEXT, " +
-                "exercise TEXT, " +
                 "difficulty TEXT, " +
                 "timestamp INTEGER)";
         db.execSQL(createSelectionTable);
@@ -41,7 +40,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("gender", selection.getGender());
         values.put("muscle_group", selection.getMuscleGroup());
-        values.put("exercise", selection.getExercise());
         values.put("difficulty", selection.getDifficulty());
         values.put("timestamp", selection.getTimestamp());
 

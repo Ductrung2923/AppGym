@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -24,11 +27,11 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView imgButtMapRun;
-    private ImageView buttonProfile;
     private LinearLayout favoriteTab;
     private ImageView cartIcon;
+    private ImageView notification_app;
     private CoordinatorLayout bottomNavBar;
-    private ImageView calculateIcon;
+    private ImageView pic;
     ActivityMainBinding binding;
     Spinner levelSpinner;
 
@@ -54,19 +57,23 @@ public class MainActivity extends AppCompatActivity {
 
         BindingView();
         BindingAction();
-        setupSpinner(); // 🟢 Gọi hàm Spinner lọc bài tập
+
+        setupSpinner();
+        if (getIntent().hasExtra("selected_workout")) {
+            String selectedWorkout = getIntent().getStringExtra("selected_workout");
+            showOverlay(selectedWorkout);
+        }
 
     }
 
     private void BindingView() {
         imgButtMapRun = findViewById(R.id.MapsRun);
-        buttonProfile = findViewById(R.id.imgButProfile);
         favoriteTab = findViewById(R.id.nav_favorite);
         cartIcon = findViewById(R.id.cartIcon);
         bottomNavBar = findViewById(R.id.bottomNavBar);
-        levelSpinner = findViewById(R.id.levelSpinner); // 🟢 spinner đã được khai báo ở layout
-        calculateIcon = findViewById(R.id.calculate);
-
+        levelSpinner = findViewById(R.id.levelSpinner);
+        notification_app = findViewById(R.id.notification_app);
+        pic = findViewById(R.id.pic);
     }
 
     private void BindingAction() {
@@ -74,10 +81,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, TrackingActivity.class));
         });
 
-        buttonProfile.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        pic.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, TrackingActivity.class));
         });
 
+
+        notification_app.setOnClickListener(view -> {
+            startActivity(new Intent(MainActivity.this, WorkoutReminderActivity.class));
+    });
         favoriteTab.setOnClickListener(view -> {
             bottomNavBar.setVisibility(View.GONE);
             getSupportFragmentManager()
@@ -252,7 +263,6 @@ public class MainActivity extends AppCompatActivity {
                 getLession_Mountain_Climber(),
                 "Beginner"
         ));
-
         list.add(new Workout(
                 "Push_up",
                 "Step 1: High plank position, hands on the floor, slightly wider than shoulder width, fingers pointing forward.\n" +
@@ -320,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Lession> getLession_3() {
         ArrayList<Lession> list = new ArrayList<>();
-        list.add(new Lession("Lesson 1", "23:00", "v7AYKMP6r0E", "pic_3_1"));
+        list.add(new Lession("Lesson 1", "Kvoq4luIYVc", "0:01", "pic_3_1"));
         list.add(new Lession("Lesson 2", "Eml2xnoLpYE?si=TKnA9Om8FTBh-bEQ", "25:36", "pic_3_2"));
         list.add(new Lession("Lesson 3", "v7SN-d4qXx0?si=eAb36da5YGRap2SO", "19:08", "pic_3_3"));
         list.add(new Lession("Lesson 4", "CM43AZaRXNw?si=w3-XDydKpZJRGMEs", "18:33", "pic_3_4"));
@@ -415,5 +425,20 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed(); // Thoát Activity nếu không còn fragment nào
         }
     }
-//
+
+    public void showOverlay(String workoutName) {
+        View overlayView = getLayoutInflater().inflate(R.layout.workout_overlay, null);
+        ConstraintLayout rootLayout = findViewById(R.id.main);
+
+        TextView workoutNameText = overlayView.findViewById(R.id.overlayWorkoutName);
+        Button closeButton = overlayView.findViewById(R.id.overlayCloseButton);
+
+        workoutNameText.setText(workoutName);
+
+        closeButton.setOnClickListener(v -> {
+            rootLayout.removeView(overlayView);
+        });
+
+        rootLayout.addView(overlayView);
+    }
 }
