@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -24,10 +27,12 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView imgButtMapRun;
-    private ImageView buttonProfile;
     private LinearLayout favoriteTab;
     private ImageView cartIcon;
+    private ImageView notification_app;
     private CoordinatorLayout bottomNavBar;
+
+    private ImageView pic;
 
     ActivityMainBinding binding;
     Spinner levelSpinner;
@@ -48,16 +53,22 @@ public class MainActivity extends AppCompatActivity {
 
         BindingView();
         BindingAction();
-        setupSpinner(); // 🟢 Gọi hàm Spinner lọc bài tập
+        setupSpinner();
+        if (getIntent().hasExtra("selected_workout")) {
+            String selectedWorkout = getIntent().getStringExtra("selected_workout");
+            showOverlay(selectedWorkout);
+        }
+
     }
 
     private void BindingView() {
         imgButtMapRun = findViewById(R.id.MapsRun);
-        buttonProfile = findViewById(R.id.imgButProfile);
         favoriteTab = findViewById(R.id.nav_favorite);
         cartIcon = findViewById(R.id.cartIcon);
         bottomNavBar = findViewById(R.id.bottomNavBar);
-        levelSpinner = findViewById(R.id.levelSpinner); // 🟢 spinner đã được khai báo ở layout
+        levelSpinner = findViewById(R.id.levelSpinner);
+        notification_app = findViewById(R.id.notification_app);
+        pic = findViewById(R.id.pic);
     }
 
     private void BindingAction() {
@@ -65,10 +76,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, TrackingActivity.class));
         });
 
-        buttonProfile.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        pic.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, TrackingActivity.class));
         });
 
+
+        notification_app.setOnClickListener(view -> {
+            startActivity(new Intent(MainActivity.this, WorkoutReminderActivity.class));
+    });
         favoriteTab.setOnClickListener(view -> {
             bottomNavBar.setVisibility(View.GONE);
             getSupportFragmentManager()
@@ -178,10 +193,92 @@ public class MainActivity extends AppCompatActivity {
                 180,
                 "40 min",
                 getLession_Pilates(),
+                "Advanced"
+        ));
+
+        list.add(new Workout(
+                "Burpee",
+                "Step 1: Stand straight, feet shoulder-width apart, arms naturally relaxed.\n" +
+                        "Step 2: Lower yourself into a squat position, placing your hands on the floor in front of your toes.\n" +
+                        "Step 3: Jump or step your feet back into a plank position, keeping your body in a straight line from head to heels.\n" +
+                        "Step 4 (optional): Do 1 push-up to increase the challenge, very suitable when you want to improve the effectiveness of home gym exercises for men.\n" +
+                        "Step 5: Jump or step your feet closer to your hands, return to a squat position.\n" +
+                        "Step 6: Jump straight up, arms reaching high above your head to activate your entire body muscles.\n" +
+                        "Step 7: Land gently on your toes, then lower your entire foot to the floor, keeping your balance.\n" +
+                        "Step 8: Repeat the steps for the required number of times.",
+                "burpee_main",
+                150,
+                "20 min",
+                getLession_Burpee(),
                 "Beginner"
         ));
 
+        list.add(new Workout(
+                "Jumping_Jacks",
+                "Step 1: Stand straight, feet together, arms straight out to the sides.\n" +
+                        "\n" +
+                        "Step 2: Jump with feet wider than shoulder-width apart, while swinging arms high above your head.\n" +
+                        "\n" +
+                        "Step 3: Jump back to starting position.\n" +
+                        "\n" +
+                        "Step 4: Repeat continuously.",
+                "jumping_main",
+                120,
+                "20 min",
+                getLession_Jumping_Jacks(),
+                "Beginner"
+        ));
 
+        list.add(new Workout(
+                "Mountain_Climber",
+                "Step 1: Start in a high plank position (arms straight, torso straight).\n" +
+                        "Step 2: Tighten your abs, pull your right knee toward your chest.\n" +
+                        "Step 3: Quickly return your right leg to the starting position while pulling your left knee toward your chest.\n" +
+                        "Step 4: Alternate legs continuously.",
+                "mountain_main",
+                130,
+                "30 min",
+                getLession_Mountain_Climber(),
+                "Beginner"
+        ));
+
+        list.add(new Workout(
+                "Push_up",
+                "Step 1: High plank position, hands on the floor, slightly wider than shoulder width, fingers pointing forward.\n" +
+                        "\n" +
+                        "Step 2: Body forms a straight line from head to heels. Tighten abdominal and gluteal muscles.\n" +
+                        "\n" +
+                        "Step 3: Slowly lower body by bending elbows (pointing back slightly about 45 degrees), until chest almost touches the floor.\n" +
+                        "\n" +
+                        "Step 4: Use the force from chest muscles and arms to push body back to the starting position.\n" +
+                        "\n" +
+                        "3-4 sets of 8-15 reps each, rest 60 seconds.",
+                "push_up_main",
+                180,
+                "40 min",
+                getLession_Push_up(),
+                "Intermediate"
+        ));
+
+        list.add(new Workout(
+                "Squat",
+                "Step 1: Stand up straight, feet shoulder-width apart or wider, toes pointing slightly outward.\n" +
+                        "\n" +
+                        "Step 2: Hands out in front of chest or behind head (do not pull head).\n" +
+                        "\n" +
+                        "Step 3: Push hips back and lower body as if sitting in an invisible chair.\n" +
+                        "\n" +
+                        "Step 4: Lower until thighs are parallel to floor (or deeper if joints allow, back straight). Knees follow toes, trying not to go beyond toes.\n" +
+                        "\n" +
+                        "Step 5: Keep back naturally straight, chest open, eyes looking forward. Tighten abs.\n" +
+                        "\n" +
+                        "Step 6: Push force into heels and mid-foot, push body up straight. Squeeze glutes at top.",
+                "squat_main",
+                150,
+                "20 min",
+                getLession_Squat(),
+                "Intermediate"
+        ));
         return list;
     }
 
@@ -212,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Lession> getLession_3() {
         ArrayList<Lession> list = new ArrayList<>();
-        list.add(new Lession("Lesson 1", "23:00", "v7AYKMP6r0E", "pic_3_1"));
+        list.add(new Lession("Lesson 1", "Kvoq4luIYVc", "0:01", "pic_3_1"));
         list.add(new Lession("Lesson 2", "Eml2xnoLpYE?si=TKnA9Om8FTBh-bEQ", "25:36", "pic_3_2"));
         list.add(new Lession("Lesson 3", "v7SN-d4qXx0?si=eAb36da5YGRap2SO", "19:08", "pic_3_3"));
         list.add(new Lession("Lesson 4", "CM43AZaRXNw?si=w3-XDydKpZJRGMEs", "18:33", "pic_3_4"));
@@ -259,6 +356,41 @@ public class MainActivity extends AppCompatActivity {
 
         return list;
     }
+
+    private ArrayList<Lession> getLession_Burpee() {
+        ArrayList<Lession> list = new ArrayList<>();
+
+        list.add(new Lession("Lession", "pgM9UIp_Oyw?si=agrqVTE69FlcYpqB", "6:20", "burpee_1"));
+        return list;
+    }
+
+    private ArrayList<Lession> getLession_Jumping_Jacks () {
+        ArrayList<Lession> list = new ArrayList<>();
+
+        list.add(new Lession("Lession", "FmnrehDxEB0?si=gekPjoRTSgB-WB11", "0:13", "jumping_1"));
+        return list;
+    }
+
+    private ArrayList<Lession> getLession_Mountain_Climber () {
+        ArrayList<Lession> list = new ArrayList<>();
+
+        list.add(new Lession("Lession", "De3Gl-nC7IQ?si=zvNPMmJRSLCCwhr0", "1:15", "mountain_1"));
+        return list;
+    }
+
+    private ArrayList<Lession> getLession_Push_up () {
+        ArrayList<Lession> list = new ArrayList<>();
+
+        list.add(new Lession("Lession", "WDIpL0pjun0?si=wYdyUQYgnBatAfyq", "0:13", "push_up1"));
+        return list;
+    }
+
+    private ArrayList<Lession> getLession_Squat () {
+        ArrayList<Lession> list = new ArrayList<>();
+
+        list.add(new Lession("Lession", "xqvCmoLULNY?si=Ofq3iN95IVwOs7ri", "0:48", "squat1"));
+        return list;
+    }
     @Override
     public void onBackPressed() {
         // Kiểm tra xem còn Fragment nào trong back stack không
@@ -272,5 +404,23 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed(); // Thoát Activity nếu không còn fragment nào
         }
     }
+
+    public void showOverlay(String workoutName) {
+        View overlayView = getLayoutInflater().inflate(R.layout.workout_overlay, null);
+        ConstraintLayout rootLayout = findViewById(R.id.main);
+
+        TextView workoutNameText = overlayView.findViewById(R.id.overlayWorkoutName);
+        Button closeButton = overlayView.findViewById(R.id.overlayCloseButton);
+
+        workoutNameText.setText(workoutName);
+
+        closeButton.setOnClickListener(v -> {
+            rootLayout.removeView(overlayView);
+        });
+
+        rootLayout.addView(overlayView);
+    }
+
+
 
 }

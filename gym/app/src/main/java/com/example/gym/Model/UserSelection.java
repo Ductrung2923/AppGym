@@ -4,7 +4,6 @@ public class UserSelection {
     private int id;
     private String gender;
     private String muscleGroup;
-    private String exercise;
     private String difficulty;
     private long timestamp; // thời gian tạo kế hoạch
 
@@ -12,10 +11,9 @@ public class UserSelection {
 
     }
 
-    public UserSelection(String gender, String muscleGroup, String exercise, String difficulty) {
+    public UserSelection(String gender, String muscleGroup, String difficulty) {
         this.gender = gender;
         this.muscleGroup = muscleGroup;
-        this.exercise = exercise;
         this.difficulty = difficulty;
         this.timestamp = System.currentTimeMillis();
     }
@@ -44,13 +42,6 @@ public class UserSelection {
         this.muscleGroup = muscleGroup;
     }
 
-    public String getExercise() {
-        return exercise;
-    }
-
-    public void setExercise(String exercise) {
-        this.exercise = exercise;
-    }
 
     public String getDifficulty() {
         return difficulty;
